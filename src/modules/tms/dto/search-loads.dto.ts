@@ -1,5 +1,6 @@
 import { IsInt, IsOptional, IsString, Length, Matches, Max, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { stringToOptionalInt } from '../../../common/transformers';
 
 export class SearchLoadsDto {
   @IsOptional()
@@ -43,6 +44,7 @@ export class SearchLoadsDto {
   @Length(1, 32)
   equipment_type?: string;
 
+  @Transform(stringToOptionalInt)
   @IsOptional()
   @IsInt()
   @Min(1)

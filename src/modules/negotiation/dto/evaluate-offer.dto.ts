@@ -1,4 +1,6 @@
 import { IsInt, IsOptional, IsString, Matches, Min } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { stringToInt, stringToOptionalInt } from '../../../common/transformers';
 
 export class EvaluateOfferDto {
   @IsString()
@@ -13,10 +15,12 @@ export class EvaluateOfferDto {
   @Matches(/^\d{5,8}$/, { message: 'mc_num must be 5-8 digits' })
   mc_num!: string;
 
+  @Transform(stringToInt)
   @IsInt()
   @Min(1)
   offer!: number;
 
+  @Transform(stringToOptionalInt)
   @IsOptional()
   @IsInt()
   @Min(1)

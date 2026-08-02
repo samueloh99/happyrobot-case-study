@@ -1,17 +1,6 @@
 import { IsIn, IsInt, IsOptional, IsString, Length, Matches, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
-
-const emptyToUndef = ({ value }: { value: unknown }): unknown =>
-  value === '' || value === null ? undefined : value;
-
-const emptyToUndefNumber = ({ value }: { value: unknown }): unknown => {
-  if (value === '' || value === null || value === undefined) return undefined;
-  if (typeof value === 'string') {
-    const n = Number.parseInt(value, 10);
-    return Number.isFinite(n) ? n : undefined;
-  }
-  return value;
-};
+import { emptyToUndef, stringToOptionalInt } from '../../../common/transformers';
 
 export class LogCallDto {
   @IsString()
@@ -30,13 +19,13 @@ export class LogCallDto {
   @Matches(/^LD\d+$/)
   load_id?: string;
 
-  @Transform(emptyToUndefNumber)
+  @Transform(stringToOptionalInt)
   @IsOptional()
   @IsInt()
   @Min(1)
   agreed_rate?: number;
 
-  @Transform(emptyToUndefNumber)
+  @Transform(stringToOptionalInt)
   @IsOptional()
   @IsInt()
   @Min(0)
