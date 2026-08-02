@@ -6,13 +6,12 @@ export type CarrierContact = {
 };
 
 export const CARRIER_CONTACTS: readonly CarrierContact[] = [
-  { mc_num: '872144', legal_name: 'Southern Freight Co.',    email: 'dispatch@southernfreight.example.com',    phone: '+14045551201' },
-  { mc_num: '445912', legal_name: 'Prairie Logistics LLC',   email: 'ops@prairielogistics.example.com',         phone: '+13125550194' },
-  { mc_num: '110338', legal_name: 'Gulf Coast Trucking',     email: 'carrier@gulfcoasttrucking.example.com',    phone: '+17135550170' },
-  { mc_num: '620017', legal_name: 'Pacific Line Carriers',   email: 'dispatch@pacificline.example.com',         phone: '+12135550111' },
-  { mc_num: '389205', legal_name: 'Northeast Haulers Inc.',  email: 'ops@northeasthaulers.example.com',         phone: '+16175550142' },
-  { mc_num: '502388', legal_name: 'Rocky Mountain Freight',  email: 'dispatch@rockymtn.example.com',            phone: '+13035550129' },
-  { mc_num: '714006', legal_name: 'Sunbelt Cartage',         email: 'ops@sunbeltcartage.example.com',           phone: '+16025550188' },
+  { mc_num: '76400',  legal_name: 'Hammer Lane Trucking LLC',          email: 'dispatch@hammerlane.example.com',          phone: '+14045551201' },
+  { mc_num: '29910',  legal_name: 'ABF Freight System Inc',            email: 'ops@abffreight.example.com',               phone: '+15015550194' },
+  { mc_num: '133655', legal_name: 'Schneider National Carriers Inc',   email: 'dispatch@schneidernational.example.com',   phone: '+19205550170' },
+  { mc_num: '91045',  legal_name: 'Ravenna Transport LLC',             email: 'dispatch@ravennatransport.example.com',    phone: '+12165550111' },
+  { mc_num: '66788',  legal_name: 'Cubeship Consolidation Company',    email: 'ops@cubeship.example.com',                 phone: '+14155550142' },
+  { mc_num: '174579', legal_name: 'Vannoy Contractors Inc',            email: 'dispatch@vannoycontractors.example.com',   phone: '+13365550129' },
 ];
 
 export const findCarrierByMc = (mc: string): CarrierContact | undefined =>
