@@ -37,6 +37,7 @@ export class LogCallDto {
     'fmcsa_failed',
     'otp_failed',
     'negotiation_failed',
+    'booking_failed',
     'carrier_hangup',
     'error',
   ])
@@ -46,6 +47,7 @@ export class LogCallDto {
     | 'fmcsa_failed'
     | 'otp_failed'
     | 'negotiation_failed'
+    | 'booking_failed'
     | 'carrier_hangup'
     | 'error';
 
