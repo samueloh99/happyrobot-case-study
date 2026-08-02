@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { SearchLoadsDto } from './dto/search-loads.dto';
 import { BookLoadDto } from './dto/book-load.dto';
 import { BookingResult, Load, TmsService } from './tms.service';
+import { CANONICAL_EQUIPMENT_TYPES, normalizeEquipment } from './equipment';
 
 @Controller('loads')
 export class TmsController {
@@ -16,7 +17,15 @@ export class TmsController {
     if (dto.destination_city) fields.DEST_CITY = dto.destination_city;
     if (dto.destination_state) fields.DEST_STATE = dto.destination_state;
     if (dto.destination_zip) fields.DEST_ZIP = dto.destination_zip;
-    if (dto.equipment_type) fields.EQTYPE = dto.equipment_type;
+    if (dto.equipment_type) {
+      const canonical = normalizeEquipment(dto.equipment_type);
+      if (!canonical) {
+        throw new BadRequestException(
+          `equipment_type "${dto.equipment_type}" not recognized; accepted values: ${CANONICAL_EQUIPMENT_TYPES.join(', ')}`,
+        );
+      }
+      fields.EQTYPE = canonical;
+    }
     if (dto.max_results) fields.MAX_RESULTS = dto.max_results;
 
     const loads = await this.tms.search(fields);

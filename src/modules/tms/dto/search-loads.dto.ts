@@ -40,8 +40,7 @@ export class SearchLoadsDto {
 
   @IsOptional()
   @IsString()
-  @Length(1, 16)
-  @Transform(({ value }) => (typeof value === 'string' ? value.toUpperCase() : value))
+  @Length(1, 32)
   equipment_type?: string;
 
   @IsOptional()
