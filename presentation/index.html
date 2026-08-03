@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Inbound Carrier Sales — Walkthrough</title>
+  <meta name="viewport" content="width=1280, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #fafaf9;
+      --fg: #09090b;
+      --fg-muted: #52525b;
+      --fg-subtle: #a1a1aa;
+      --accent: #ea580c;
+      --line: #e4e4e7;
+    }
+
+    html, body {
+      background: var(--bg);
+    }
+
+    .reveal {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      color: var(--fg);
+      font-feature-settings: 'ss01', 'cv11';
+    }
+
+    .reveal .slides {
+      text-align: left;
+    }
+
+    .reveal .slides section {
+      padding: 4.5em 5em;
+      height: 100%;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--fg);
+      text-transform: none;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .reveal h1 { font-size: 3.8em; letter-spacing: -0.035em; }
+    .reveal h2 { font-size: 2.6em; letter-spacing: -0.025em; }
+    .reveal h3 { font-size: 1.6em; }
+
+    .reveal p, .reveal li {
+      font-size: 1.1em;
+      line-height: 1.55;
+      color: var(--fg-muted);
+    }
+
+    .reveal a { color: var(--accent); text-decoration: none; }
+    .reveal a:hover { text-decoration: underline; }
+
+    /* Section label — small caps at top of slide */
+    .label {
+      font-size: 0.65em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      font-weight: 500;
+      margin: 0 0 2em 0;
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+    .label .num {
+      color: var(--accent);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-weight: 500;
+    }
+    .label .rule {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* Title slide */
+    .title-slide {
+      justify-content: center !important;
+    }
+    .title-slide .eyebrow {
+      font-size: 0.7em;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 1.5em;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    .title-slide h1 {
+      font-size: 4.5em;
+      font-weight: 700;
+      max-width: 12em;
+      line-height: 1.02;
+    }
+    .title-slide .subtitle {
+      font-size: 1.3em;
+      color: var(--fg-muted);
+      margin-top: 1em;
+      max-width: 30em;
+    }
+    .title-slide .footer {
+      position: absolute;
+      bottom: 4em;
+      left: 5em;
+      right: 5em;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85em;
+      color: var(--fg-subtle);
+      font-weight: 500;
+    }
+    .title-slide .footer strong { color: var(--fg); font-weight: 600; }
+
+    /* Problem list */
+    .problem-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2em 3em;
+      margin-top: 2.5em;
+    }
+    .problem-list .item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4em;
+    }
+    .problem-list .item .num {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      color: var(--accent);
+      font-size: 0.75em;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .problem-list .item h3 {
+      font-size: 1.35em;
+      font-weight: 600;
+      color: var(--fg);
+    }
+    .problem-list .item p {
+      font-size: 0.95em;
+      color: var(--fg-muted);
+      margin: 0;
+    }
+
+    /* Architecture diagram */
+    .arch {
+      margin-top: 2em;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5em;
+    }
+    .arch-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+    }
+    .arch-node {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1em 1.4em;
+      font-size: 0.95em;
+      font-weight: 500;
+      color: var(--fg);
+      text-align: center;
+      min-width: 9em;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .arch-node .sub {
+      display: block;
+      font-size: 0.75em;
+      color: var(--fg-subtle);
+      font-weight: 400;
+      margin-top: 0.3em;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    .arch-node.accent {
+      border-color: var(--accent);
+      background: #fff7ed;
+    }
+    .arch-arrow {
+      color: var(--fg-subtle);
+      font-size: 1.5em;
+      font-weight: 300;
+      user-select: none;
+    }
+    .arch-branch {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      margin-top: 0.5em;
+    }
+    .arch-branch::before {
+      content: '';
+      position: absolute;
+      /* decorative — omitted for simplicity */
+    }
+    .arch-caption {
+      text-align: center;
+      color: var(--fg-subtle);
+      font-size: 0.85em;
+      margin-top: 1em;
+      font-style: italic;
+    }
+
+    /* Guarantees */
+    .guarantees {
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+      margin-top: 2em;
+    }
+    .guarantee {
+      display: grid;
+      grid-template-columns: 4em 1fr;
+      gap: 1em;
+      align-items: baseline;
+    }
+    .guarantee .num {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      color: var(--accent);
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+    .guarantee h3 {
+      font-size: 1.5em;
+      margin-bottom: 0.3em;
+    }
+    .guarantee p {
+      font-size: 1em;
+      color: var(--fg-muted);
+      margin: 0;
+    }
+
+    /* Outcomes / wrap */
+    .outcomes {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2em;
+      margin-top: 1.5em;
+    }
+    .outcome {
+      font-size: 2.4em;
+      font-weight: 600;
+      color: var(--fg);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .outcome .check {
+      color: var(--accent);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-weight: 500;
+      margin-right: 0.4em;
+      font-size: 0.8em;
+    }
+    .wrap-footer {
+      margin-top: 3em;
+      padding-top: 2em;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9em;
+      color: var(--fg-muted);
+    }
+    .wrap-footer .url {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      color: var(--fg);
+    }
+
+    /* Reveal.js overrides */
+    .reveal .progress { color: var(--accent); }
+    .reveal .controls { color: var(--fg-subtle); }
+    .reveal .slide-number { color: var(--fg-subtle); background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 0.7em; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1 — Title -->
+      <section class="title-slide">
+        <p class="eyebrow">HappyRobot · FDE Case Study</p>
+        <h1>Inbound Carrier Sales, on Autopilot.</h1>
+        <p class="subtitle">A voice AI that answers every carrier call, enforces the rate ceiling, and lands every outcome in your ops dashboard.</p>
+        <div class="footer">
+          <span><strong>Samuel Oh</strong> · Forward Deployed Engineer</span>
+          <span>Aug 2026</span>
+        </div>
+      </section>
+
+      <!-- SLIDE 2 — Problem -->
+      <section>
+        <p class="label"><span class="num">01</span> The Problem <span class="rule"></span></p>
+        <h2>Their carrier desk loses calls, margin, and memory.</h2>
+        <div class="problem-list">
+          <div class="item">
+            <span class="num">→ 01</span>
+            <h3>Missed calls at peak hours</h3>
+            <p>Carriers move on to competing brokers when dispatchers can't answer.</p>
+          </div>
+          <div class="item">
+            <span class="num">→ 02</span>
+            <h3>Inconsistent rate negotiation</h3>
+            <p>Different dispatchers hold different ceilings — margin leaks silently.</p>
+          </div>
+          <div class="item">
+            <span class="num">→ 03</span>
+            <h3>Manual FMCSA verification</h3>
+            <p>Dispatchers look up carrier authority by hand — slow and error-prone.</p>
+          </div>
+          <div class="item">
+            <span class="num">→ 04</span>
+            <h3>No structured audit trail</h3>
+            <p>Nothing recorded, nothing learned, no way to resolve disputes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3 — Architecture -->
+      <section>
+        <p class="label"><span class="num">02</span> Architecture <span class="rule"></span></p>
+        <h2>Voice AI in front, guarded backend behind, native data underneath.</h2>
+
+        <div class="arch">
+          <div class="arch-row">
+            <div class="arch-node">
+              Carrier<span class="sub">web call</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">
+              HappyRobot<br>Voice Agent<span class="sub">workflow + LLM</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node accent">
+              Backend<span class="sub">NestJS · Railway</span>
+            </div>
+          </div>
+
+          <div class="arch-row">
+            <div class="arch-arrow" style="visibility:hidden">↓</div>
+            <div class="arch-arrow" style="visibility:hidden">→</div>
+            <div class="arch-arrow" style="visibility:hidden">→</div>
+            <div class="arch-arrow">↓</div>
+          </div>
+
+          <div class="arch-row">
+            <div class="arch-node">
+              Legacy TMS<span class="sub">TCP · fixed-width</span>
+            </div>
+            <div class="arch-node">
+              FMCSA<span class="sub">public REST</span>
+            </div>
+            <div class="arch-node accent">
+              Twin<span class="sub">native data layer</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">
+              Ops Dashboard<span class="sub">HappyRobot Apps</span>
+            </div>
+          </div>
+        </div>
+        <p class="arch-caption">The backend holds two secrets the agent can never see: the rate ceiling and the OTP code.</p>
+      </section>
+
+      <!-- SLIDE 4 — Design guarantees -->
+      <section>
+        <p class="label"><span class="num">03</span> Design Guarantees <span class="rule"></span></p>
+        <h2>Three things that can't break.</h2>
+
+        <div class="guarantees">
+          <div class="guarantee">
+            <span class="num">01</span>
+            <div>
+              <h3>The rate ceiling never leaks.</h3>
+              <p>The negotiation service returns only <em>action</em> and <em>counter offer</em> — never the ceiling itself. When a carrier asks "what's your max?", the agent has nothing to reveal.</p>
+            </div>
+          </div>
+
+          <div class="guarantee">
+            <span class="num">02</span>
+            <div>
+              <h3>The OTP can't be talked around.</h3>
+              <p>The verification code is generated, stored, and checked server-side. "My dispatcher waived it" is a hard no — the server just says yes or no.</p>
+            </div>
+          </div>
+
+          <div class="guarantee">
+            <span class="num">03</span>
+            <div>
+              <h3>Booking never retries.</h3>
+              <p>If the TMS times out, we can't know if the booking committed. Retrying could double-book. So we fail loudly, promise a senior-rep callback, and log honestly.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5 — Outcomes / wrap -->
+      <section>
+        <p class="label"><span class="num">04</span> Outcomes <span class="rule"></span></p>
+
+        <div class="outcomes">
+          <div class="outcome"><span class="check">✓</span> Every call answered.</div>
+          <div class="outcome"><span class="check">✓</span> Rate ceiling never leaks.</div>
+          <div class="outcome"><span class="check">✓</span> Record writes itself.</div>
+        </div>
+
+        <div class="wrap-footer">
+          <span>Built and deployed in 3 days · Production-ready in 4–6 weeks</span>
+          <span class="url">happyrobot-case-study.up.railway.app</span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      transition: 'fade',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      width: 1280,
+      height: 800,
+      margin: 0.02,
+      minScale: 0.4,
+      maxScale: 1.6,
+    });
+  </script>
+</body>
+</html>
