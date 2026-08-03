@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Env } from '../config/env';
-import { IS_PUBLIC_KEY } from '../health.controller';
+import { IS_PUBLIC_KEY } from './public.decorator';
 
 @Injectable()
 export class BearerAuthGuard implements CanActivate {

@@ -4,7 +4,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 
-  BACKEND_API_KEY: z.string().min(16),
+  BACKEND_API_KEY: z.string().min(32, 'BACKEND_API_KEY must be at least 32 chars'),
 
   TMS_HOST: z.string().min(1),
   TMS_PORT: z.coerce.number().int().positive(),
@@ -18,7 +18,7 @@ const envSchema = z.object({
   RESEND_FROM: z.string().default('noreply@example.com'),
 
   OTP_TTL_SECONDS: z.coerce.number().int().positive().default(300),
-  OTP_MAX_ATTEMPTS: z.coerce.number().int().positive().default(3),
+  OTP_MAX_ATTEMPTS: z.coerce.number().int().positive().default(5),
 
   NEGOTIATION_MAX_ROUNDS: z.coerce.number().int().positive().default(3),
   NEGOTIATION_SESSION_TTL_SECONDS: z.coerce.number().int().positive().default(1800),

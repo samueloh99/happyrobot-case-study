@@ -18,11 +18,12 @@ async function bootstrap(): Promise<void> {
   );
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.setGlobalPrefix('api/v1');
+  app.enableShutdownHooks();
 
   const config = app.get(ConfigService<Env, true>);
   const port = config.get('PORT', { infer: true });
 
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   Logger.log(`listening on http://0.0.0.0:${port}/api/v1`, 'Bootstrap');
 }
 

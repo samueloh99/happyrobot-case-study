@@ -4,9 +4,13 @@ dist
 .gitignore
 .env
 .env.*
+!.env.example
 *.log
 .DS_Store
 .idea
 .vscode
+.claude
 coverage
+docs
 README.md
+docker-compose*.yml
