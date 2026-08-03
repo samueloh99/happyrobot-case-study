@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/http-exception.filter';
+import { RequestLoggerInterceptor } from './common/request-logger.interceptor';
 import { Env } from './config/env';
 
 async function bootstrap(): Promise<void> {
@@ -17,6 +18,7 @@ async function bootstrap(): Promise<void> {
     }),
   );
   app.useGlobalFilters(new GlobalExceptionFilter());
+  app.useGlobalInterceptors(new RequestLoggerInterceptor());
   app.setGlobalPrefix('api/v1');
   app.enableShutdownHooks();
 

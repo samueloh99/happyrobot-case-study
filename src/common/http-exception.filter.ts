@@ -43,10 +43,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       error = exception.name;
     }
 
+    const requestId = req.id ?? 'no-id';
     if (statusCode >= 500) {
-      this.logger.error(`${req.method} ${req.url} → ${statusCode}: ${message}`, (exception as Error)?.stack);
+      this.logger.error(
+        `[${requestId}] ${req.method} ${req.url} → ${statusCode}: ${message}`,
+        (exception as Error)?.stack,
+      );
     } else {
-      this.logger.warn(`${req.method} ${req.url} → ${statusCode}: ${message}`);
+      this.logger.warn(`[${requestId}] ${req.method} ${req.url} → ${statusCode}: ${message}`);
     }
 
     const body: ErrorBody = { error, message, statusCode, path: req.url };
