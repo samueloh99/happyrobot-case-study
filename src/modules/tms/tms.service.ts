@@ -90,7 +90,7 @@ export class TmsService {
     try {
       const result = await this.client.search(filters);
       const records = this.handle(result);
-      return records.map(toLoad);
+      return records.map(toLoad).filter((l) => l.status === 'OPEN');
     } catch (e) {
       if (e instanceof TmsFaultError) {
         throw new ServiceUnavailableException(`TMS transport fault: ${e.kind}`);
