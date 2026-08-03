@@ -7,7 +7,7 @@ import { TmsModule } from './modules/tms/tms.module';
 import { FmcsaModule } from './modules/fmcsa/fmcsa.module';
 import { OtpModule } from './modules/otp/otp.module';
 import { NegotiationModule } from './modules/negotiation/negotiation.module';
-import { CallsModule } from './modules/calls/calls.module';
+import { HandoffsModule } from './modules/handoffs/handoffs.module';
 import { HealthController } from './health.controller';
 
 @Module({
@@ -21,7 +21,7 @@ import { HealthController } from './health.controller';
     FmcsaModule,
     OtpModule,
     NegotiationModule,
-    CallsModule,
+    HandoffsModule,
   ],
   controllers: [HealthController],
   providers: [{ provide: APP_GUARD, useClass: BearerAuthGuard }],
